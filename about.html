@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baskervville:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom CSS for styling */
+        body {
+            font-family: 'Baskervville', serif;
+        }
+
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Full-size image styling */
+        .header-image {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            margin-top: 4.4%;
+            left: 0;
+        }
+
+        /* Title styling */
+        .about-title {
+            text-align: center;
+            position: relative;
+            z-index: 2; /* Ensure title is above the image */
+            margin-top: 20%; /* Adjust margin for spacing */
+            color: white; /* Text color */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for better readability */
+            font-size: 2.5rem; /* Increased font size */
+        }
+
+        /* Content container styling */
+        .content-container {
+            position: relative;
+            z-index: 2;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 39%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-relative">
+        <a href="javascript:history.back()" class="navbar-brand">
+            <span style="font-size: 1.5rem;">&lt;</span>
+        </a>
+        <a class="navbar-brand navbar-center" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16" color="#ff6347">
+                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z" />
+            </svg>
+            <span>Expense Tracker</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Title above the image -->
+    <h2 class="about-title">About Us</h2>
+
+    <!-- Full-size image -->
+    <img src="../static/fire.jpg" alt="About Image" class="header-image" />
+
+    <!-- About content container -->
+    <div class="container content-container">
+        <p class="text-center">
+            Welcome to Expense Tracker! Our website is designed to help you manage your finances effortlessly. With our user-friendly interface, you can easily track your expenses, set budgets, and gain insights into your spending habits.
+        </p>
+        <p class="text-center">
+            Whether you're a student, a working professional, or someone looking to improve your financial health, Expense Tracker provides the tools you need to achieve your financial goals.
+        </p>
+        <p class="text-center">
+            Join us on this journey to financial awareness and control. Let's take the first step towards smarter spending together!
+        </p>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

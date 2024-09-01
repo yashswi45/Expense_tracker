@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('../static/blue.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Baskervville', serif; /* Set to Baskerville SC */
+            height: 100vh;
+            color: #C2B280; /* Sand color */
+        }
+
+        .highlight-box {
+            background: rgba(0, 0, 128, 0.9); /* Navy blue with transparency */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ADD8E6; /* Light blue color for text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 10%;
+            background: #32566c; /* Navy blue for the form */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow for depth */
+            color: #E0FFFF; /* Whitish blue color for text */
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #729eb8; /* Light blue for title */
+            text-align: center;
+            text-transform: uppercase; /* Make the title uppercase */
+        }
+
+        .btn-primary {
+            background-color: #729eb8; /* Light blue for button */
+            border-color: #729eb8; /* Light blue for button border */
+            width: 100%;
+            font-size: 18px;
+            padding: 12px; /* Slightly larger button for better touch experience */
+            border-radius: 8px; /* Softer button corners */
+        }
+
+        .btn-primary:hover {
+            background-color: #729eb8; /* Slightly darker light blue for hover */
+            border-color: #729eb8; /* Slightly darker light blue for hover */
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #729eb8; /* Whitish blue for labels */
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 18px; /* Larger back link text */
+            color: #729eb8; /* Light blue for back link */
+        }
+
+        .back-link a {
+            color: #729eb8; /* Light blue for back link */
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .back-link a:hover {
+            color: #729eb8; /* Slightly darker light blue for hover */
+            text-decoration: underline;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+            font-size: 16px; /* Consistent font size for alerts */
+            padding: 15px; /* Larger padding for alerts */
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer img {
+            width: 50px;
+            height: auto;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 576px) {
+            .form-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Back link -->
+        <div class="back-link">
+            <a href="{{ url_for('home') }}"><i class="fas fa-chevron-left"></i> Back</a>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div>
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Check if user is not logged in -->
+        {% if not current_user.is_authenticated %}
+        <div class="alert alert-warning" role="alert">
+            Log in first to add an expense.
+        </div>
+        {% else %}
+
+
+        <!-- Form Title -->
+        <h2 class="form-title">Add New Expense</h2>
+
+        <!-- Expense Form -->
+        <form method="POST" action="{{ url_for('add_expense') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.amount.label(class_="form-label") }}
+                {{ form.amount(class_="form-control", placeholder="Enter amount") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.description.label(class_="form-label") }}
+                {{ form.description(class_="form-control", placeholder="Enter description") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.date.label(class_="form-label") }}
+                {{ form.date(class_="form-control", type="date") }}
+            </div>
+
+            {{ form.submit(class_="btn btn-primary btn-block") }}
+        </form>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+</html>

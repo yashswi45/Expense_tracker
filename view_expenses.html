@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Expenses</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baskervville&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Baskervville', serif; /* Set to Baskerville font */
+            background-color: #1c1c1c; /* Dark background color */
+            color: #f8f9fa; /* Light text color */
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .header-image {
+            width: 100%;
+            height: 250px; /* Increased header image size */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .expense-table {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        th {
+            background-color: #f5f5dc; /* Beige background color for header */
+            color: #333; /* Dark text color for contrast */
+        }
+        .btn-custom {
+            margin: 5px;
+        }
+        .btn-beige {
+            background-color: #f5f5dc; /* Beige button color */
+            border-color: #f5f5dc;
+            color: #333; /* Dark text color for contrast */
+        }
+        .btn-beige:hover {
+            background-color: #e2e6ea; /* Slightly darker beige on hover */
+        }
+        .btn-dark-custom {
+            background-color: #343a40; /* Dark button color */
+            color: white;
+        }
+        .btn-dark-custom:hover {
+            background-color: #495057; /* Darker on hover */
+        }
+        @media (max-width: 576px) {
+            .header-image {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-relative">
+        <!-- Back Button with "<" logo -->
+        <a href="javascript:history.back()" class="navbar-brand">
+            <span style="font-size: 1.5rem;">&lt;</span>
+        </a>
+        <!-- Centered Brand Name -->
+        <a class="navbar-brand navbar-center" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16" color="#ff6347">
+                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z" />
+            </svg>
+            <span>Expense Tracker</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header Image -->
+        <img src="./static/green.jpg" alt="Finance Header" class="header-image">
+
+        <h2 class="mt-4 text-center">Your Expenses</h2>
+
+        <div class="expense-table p-3 bg-dark rounded">
+            <table class="table table-striped text-light">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.id }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.description }}</td>
+                        <td>{{ expense.date.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No expenses found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('add_expense') }}" class="btn btn-beige btn-custom">Add New Expense</a>
+                <a href="{{ url_for('home') }}" class="btn btn-beige btn-custom">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

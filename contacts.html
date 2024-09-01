@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100vh;
+            background: url('/static/phone.jpg') no-repeat center center/cover;
+            position: relative;
+            margin-top: -100px; /* Move the image upwards */
+        }
+
+        .contact-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff; /* Ensures the text color is white */
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Adds shadow without affecting opacity */
+            z-index: 2; /* Ensures the text is above other elements */
+        }
+
+        .contact-section {
+            background: url('/static/contact-bg.jpg') no-repeat center center/cover;
+            position: relative;
+            padding: 100px 0;
+        }
+
+        .contact-section .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1; /* Ensures the overlay is below the text */
+        }
+
+        .contact-section .container {
+            position: relative;
+            z-index: 2; /* Ensures the form and content are above the overlay */
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #ff6347;
+        }
+
+        .contact-section .form-control {
+            background-color: #333;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .contact-section .form-control:focus {
+            background-color: #444;
+            border-color: #ff6347;
+            box-shadow: none;
+        }
+
+        .contact-section .btn-custom {
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .contact-section .btn-custom:hover {
+            background-color: #e5533d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="background-image">
+            <div class="contact-title">Contact Us</div>
+        </div>
+        <div class="overlay"></div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="text-center">Get in Touch</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Your Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Your Message"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-custom">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

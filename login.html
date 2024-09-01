@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baskervville:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Baskervville', serif; /* Set to Baskerville SC */
+        }
+
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-image {
+            width: 100vw; /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            object-fit: cover; /* Cover the area */
+            position: absolute; /* Positioning for overlay */
+            margin-top: 4.4%;
+            top: 0; /* Align to top */
+            left: 0; /* Align to left */
+        }
+
+        .login-text{
+            position: absolute;
+            top: 20%; /* Adjusted position for "Sign Up" text */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 3rem; /* Large font size */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for better readability */
+            z-index: 2; /* Above the image but below the form */
+            margin-top: 16%;
+        }
+
+
+        /* Custom margin to move the form downwards */
+        .form-container {
+            margin-top: 95vh; /* Move the form below the image */
+            padding-top: 50px; /* Additional space between the image and the form */
+            position: relative; /* Ensure proper stacking order */
+            z-index: 1; /* Ensure form is above image */
+        }
+
+        /* Style for the "Let Me In" button */
+        .btn-custom {
+            background-color: lightyellow;
+            color: #333;
+            font-size: 1rem; /* Adjusted size for better fit */
+            padding: 0.25rem 1rem; /* Adjust padding for smaller size */
+            border-radius: 5px;
+            width: auto; /* Width adjusted to fit content */
+            max-width: 200px; /* Optional: Set a max-width for more control */
+
+        }
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-relative">
+        <!-- Back Button with "<" logo -->
+        <a href="javascript:history.back()" class="navbar-brand">
+            <span style="font-size: 1.5rem;">&lt;</span>
+        </a>
+        <!-- Centered Brand Name -->
+        <a class="navbar-brand navbar-center" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16" color="#ff6347">
+                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z" />
+            </svg>
+            <span>Expense Tracker</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <img src="../static/sharp.jpg" alt="Registration Image" class="header-image" />
+    <div class="login-text">
+        Log In
+    </div>
+
+    <div class="container form-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <!-- Manually render the form -->
+                <form method="POST" action="{{ url_for('login') }}">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                        {% if form.email.errors %}
+                        <div class="text-danger">
+                            {% for error in form.email.errors %}
+                            <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control") }}
+                        {% if form.password.errors %}
+                        <div class="text-danger">
+                            {% for error in form.password.errors %}
+                            <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-custom btn-block") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #000;
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar-brand img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+        }
+
+        .content-wrapper {
+            position: relative;
+            text-align: left;
+            color: white;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100vh;
+            background: url('/static/pen.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px;
+            box-sizing: border-box;
+        }
+
+        .text-content {
+            max-width: 400px;
+        }
+
+        .text-content.left {
+            margin-right: auto; /* Move to the left side */
+        }
+
+        .text-content.right {
+            margin-left: auto; /* Move to the right side */
+            margin-right: 637px; /* Move closer to left text */
+        }
+
+        .text-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .text-content p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .card-container {
+            padding: 20px;
+        }
+
+        .card {
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .card-header {
+            background-color: #333; /* Dark background for card header */
+            color: #fff; /* White text color for header */
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title,
+        .card-text {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16" color="#ff6347">
+                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z" />
+                </svg>
+                <span style="margin-left: 10px;">Expense Tracker</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('contacts') }}">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <div class="content-wrapper">
+        <div class="background-image">
+            <div class="overlay">
+                <div class="text-content left">
+                    <h1>Manage Your Finances with <br>Style</h1>
+                    <p>Track your expenses, set budgets, <br>and achieve your financial goals<br> all in one place.</p>
+                    <a href="#" class="btn btn-custom">Get Started</a>
+                </div>
+                <div class="text-content right">
+                    <h1>Stay on Top <br>of Your Budget</h1>
+                    <p>Use our intuitive tools to monitor <br>spending and keep<br> your budget under control.</p>
+                    <a href="#" class="btn btn-custom">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Section -->
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">Features</h2>
+
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col">
+                <a href="{{ url_for('add') }}" style="text-decoration: none;">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('/static/map.jpg');">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Track daily expense</h3>
+                            <ul class="d-flex list-unstyled mt-auto">
+                                <li class="me-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-piggy-bank-fill" viewBox="0 0 16 16">
+                                        <path d="M7.964 1.527c-2.977 0-5.571 1.704-6.32 4.125h-.55A1 1 0 0 0 .11 6.824l.254 1.46a1.5 1.5 0 0 0 1.478 1.243h.263c.3.513.688.978 1.145 1.382l-.729 2.477a.5.5 0 0 0 .48.641h2a.5.5 0 0 0 .471-.332l.482-1.351c.635.173 1.31.267 2.011.267.707 0 1.388-.095 2.028-.272l.543 1.372a.5.5 0 0 0 .465.316h2a.5.5 0 0 0 .478-.645l-.761-2.506C13.81 9.895 14.5 8.559 14.5 7.069q0-.218-.02-.431c.261-.11.508-.266.705-.444.315.306.815.306.815-.417 0 .223-.5.223-.461-.026a1 1 0 0 0 .09-.255.7.7 0 0 0-.537-.888 1.993 1.993 0 0 0-.477-.051H11.5A3.5 3.5 0 0 0 8 4H7.964zM6.5 9.5c-.795 0-1.5-.33-1.5-1s.705-1 1.5-1 1.5.33 1.5 1-.705 1-1.5 1zM4.5 1.5a.5.5 0 0 0-.5.5v.333c0 .229-.034.469-.096.706a5.61 5.61 0 0 1 3.46 1.04A2.5 2.5 0 0 0 8 2.5h1c.036 0 .072.003.107.009-.046.059-.096.115-.145.171a1 1 0 0 0-.356 1.157C8.873 5.395 8 6.31 8 7.5a1 1 0 0 0 2 0c0-.37.076-.721.217-1.045C11.028 7.95 12.5 9.82 12.5 12h-1c-.276 0-.5.224-.5.5v1h-3v-1c0-.276-.224-.5-.5-.5h-1c-.276 0-.5-.224-.5-.5v-1H2v-1.5a3.5 3.5 0 0 0 3-3.5v-1.54C3.964 8.58 2.5 9.559 2.5 11h1c.276 0 .5.224.5.5v1h3v-1c0-.276-.224-.5-.5-.5H6c-.276 0-.5-.224-.5-.5V7a2.5 2.5 0 0 0 2-2.5V4.5A.5.5 0 0 0 8 4h1a2 2 0 0 0 1-3.732A6.51 6.51 0 0 0 6.5 1.5z" />
+                                    </svg>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-decoration-none text-light">Read More</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a href="{{ url_for('add') }}" style="text-decoration: none;">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('/static/balance.jpg');">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Set budgets</h3>
+                            <ul class="d-flex list-unstyled mt-auto">
+                                <li class="me-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-piggy-bank" viewBox="0 0 16 16">
+                                        <path d="M11.5 0a2.5 2.5 0 0 1 2.474 2.103C13.852 2.032 12.707 0 11 0h-5C5.8 0 4.7 1.027 4.7 2.083H4.5A2.5 2.5 0 0 0 2 4.583v7.834A2.5 2.5 0 0 0 4.5 15h5a2.5 2.5 0 0 0 2.5-2.5V6.873a4.5 4.5 0 0 0 2.5-4.28A2.5 2.5 0 0 0 11.5 0zM4.5 1h7a1 1 0 0 1 1 1v1.5A2.5 2.5 0 0 0 8 4a2.5 2.5 0 0 0-2.5 2.5v3.064A1.5 1.5 0 0 0 4 10.5V4.583A1.5 1.5 0 0 1 4.5 3h.5a1 1 0 0 1 0-2H4.5a.5.5 0 0 0-.5.5V4.5a.5.5 0 0 0 .5.5H8a2.5 2.5 0 0 1 2.5 2.5v1.5a1.5 1.5 0 0 0 .5.27V15h-5a1.5 1.5 0 0 1 0-3h5a1.5 1.5 0 0 0 0-3h-1.5a.5.5 0 0 1-.5-.5v-1.5a.5.5 0 0 1 .5-.5H9.5a.5.5 0 0 0 .5-.5V4.5a2.5 2.5 0 0 0-1-2zM5.5 14a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM11 14a1 1 0 1 1 1-1 1 1 0 0 1-1 1z" />
+                                    </svg>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-decoration-none text-light">Read More</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a href="{{ url_for('add') }}" style="text-decoration: none;">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('/static/report.jpg');">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Generate reports</h3>
+                            <ul class="d-flex list-unstyled mt-auto">
+                                <li class="me-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-earmark-bar-graph" viewBox="0 0 16 16">
+                                        <path d="M7.5 0a.5.5 0 0 1 .5.5V3h3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H1a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5h6V.5a.5.5 0 0 1 .5-.5zM11 4H6v1h5V4zm0 2H6v1h5V6zm0 2H6v1h5V8z" />
+                                    </svg>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-decoration-none text-light">Read More</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
