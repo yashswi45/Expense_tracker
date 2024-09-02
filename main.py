@@ -1,13 +1,27 @@
 from datetime import date
+
+import matplotlib
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.future import engine
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text, Float, Date
 from werkzeug.security import generate_password_hash, check_password_hash
 from form import RegisterForm, LoginForm, ExpenseForm  # Ensure the forms are defined in a file named `forms.py`
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from io import BytesIO
+import base64
+from sqlalchemy.orm import Session
+
+
+
+
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 # app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -21,13 +35,16 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'  # Redirect to login page if user is not authenticated
 
+
 # Database Configuration
 class Base(DeclarativeBase):
     pass
 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
+
 
 # User Table
 class User(UserMixin, db.Model):
@@ -39,6 +56,7 @@ class User(UserMixin, db.Model):
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
 
+
 # Blog Post Table
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -48,6 +66,7 @@ class BlogPost(db.Model):
     author_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id"))
     author = relationship("User", back_populates="posts")
     comments = relationship("Comment", back_populates="parent_post")
+
 
 # Comments Table
 class Comment(db.Model):
@@ -59,6 +78,7 @@ class Comment(db.Model):
     post_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="comments")
 
+
 # Expense Table
 class Expense(db.Model):
     __tablename__ = "expense"
@@ -69,14 +89,18 @@ class Expense(db.Model):
     user_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id"))
     user = relationship("User")
 
+
 # Create database tables
 with app.app_context():
     db.create_all()
+
+
 
 # User loader function for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 # Registration route
 @app.route('/register', methods=["GET", "POST"])
@@ -114,6 +138,7 @@ def register():
 
     return render_template("register.html", form=form, current_user=current_user)
 
+
 # Login route
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -136,6 +161,7 @@ def login():
             return redirect(url_for("home"))
 
     return render_template("login.html", form=form, current_user=current_user)
+
 
 # # Add expense route
 # @app.route('/add_expense', methods=["GET", "POST"])
@@ -161,7 +187,6 @@ def login():
 #             return redirect(url_for('add_expense'))
 #
 #     return render_template("add_expense.html", form=form)
-
 
 
 # @app.route('/add_expense', methods=["GET", "POST"])
@@ -216,14 +241,76 @@ def add_expense():
     return render_template("add_expense.html", form=form)
 
 
+# -----------------------------------------------------------------------------------------------------------------------
 
-#
+# GRAPH - ANALYTICS PAGE
+
+
+@app.route('/analytics')
+@login_required
+def analytics():
+    # Sample data extraction
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+    data = [{'Amount': e.amount, 'Date': e.date} for e in expenses]
+
+    # Convert to DataFrame
+    df = pd.DataFrame(data)
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # Sort by date
+    df = df.sort_values('Date')
+
+    # Monthly and Annual Summaries
+    df_monthly = df.resample('ME', on='Date').sum()
+    df_annual = df.resample('YE', on='Date').sum()
+
+    # Line chart for Monthly Expenses
+    plt.figure(figsize=(10, 5))
+    plt.plot(df_monthly.index, df_monthly['Amount'], marker='o', linestyle='-')
+    plt.title('Monthly Expenses')
+    plt.xlabel('Month')
+    plt.ylabel('Total Expense')
+    plt.grid(True)
+
+    # Convert plot to PNG image
+    monthly_img = BytesIO()
+    plt.savefig(monthly_img, format='png')
+    monthly_img.seek(0)
+    monthly_plot_url = base64.b64encode(monthly_img.getvalue()).decode('utf8')
+    plt.close()
+
+    # Line chart for Annual Expenses
+    plt.figure(figsize=(10, 5))
+    plt.plot(df_annual.index, df_annual['Amount'], marker='o', linestyle='-')
+    plt.title('Annual Expenses')
+    plt.xlabel('Year')
+    plt.ylabel('Total Expense')
+    plt.grid(True)
+
+    # Convert plot to PNG image
+    annual_img = BytesIO()
+    plt.savefig(annual_img, format='png')
+    annual_img.seek(0)
+    annual_plot_url = base64.b64encode(annual_img.getvalue()).decode('utf8')
+    plt.close()
+
+    return render_template('analytics.html', monthly_plot_url=monthly_plot_url, annual_plot_url=annual_plot_url)
+
+
+# -----------------------------------------------------------------------------------------------------------------------
+
+
 # @app.route('/view_expenses')
 # def view_expenses():
 #     expenses = Expense.query.all()
 #     return render_template('view_expenses.html', expenses=expenses)
 #
 #
+
+
+
+
+
 
 @app.route('/view_expenses')
 @login_required
@@ -232,13 +319,13 @@ def view_expenses():
     return render_template('view_expenses.html', expenses=expenses)
 
 
-
 # Logout route
 @app.route('/logout')
 def logout():
     logout_user()
     flash("You've been logged out.", "info")
     return redirect(url_for('home'))
+
 
 # Home route
 @app.route('/')
@@ -249,15 +336,18 @@ def home():
     else:
         return render_template('home.html')
 
+
 # About route
 @app.route("/about")
 def about():
     return render_template('about.html')
 
+
 # Contacts route
 @app.route("/contacts")
 def contacts():
     return render_template('contacts.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
